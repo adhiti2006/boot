@@ -1,5 +1,7 @@
 package com.ss.demo.service;
 
+import com.ss.demo.util.SecurityUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -7,7 +9,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Service
 public class AuthenticationService {
@@ -23,14 +24,21 @@ public class AuthenticationService {
     private String clientSecret;
 
     @Value("${demo.client.names}")
-    private Set<String> clientNames;
+    private List<String> clientNames;
 
     @Value("${demo.non.secure.uris}")
-    private Set<String> nonSecureURIs;
+    private List<String> nonSecureURIs;
+
+    @Autowired
+    SecurityUtil securityUtil;
 
     public boolean authenticate(Map<String, List<String>> headers) {
         if (!StringUtils.isEmpty(clientId) && !StringUtils.isEmpty(clientSecret)) {
-            return clientId.equals(getHeaderValue(headers, HEADER_CLIENT_ID)) && clientSecret.equals(getHeaderValue(headers, HEADER_CLIENT_SECRET));
+            try {
+                return clientId.equals(securityUtil.decrypt(getHeaderValue(headers, HEADER_CLIENT_ID))) && clientSecret.equals(securityUtil.decrypt(getHeaderValue(headers, HEADER_CLIENT_SECRET)));
+            } catch (Exception exception) {
+                // log the exception
+            }
         }
         return false;
     }

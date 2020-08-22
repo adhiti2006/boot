@@ -86,8 +86,8 @@ class AuthenticationServiceTest {
     void whenValidClientIdAndSecret_authenticate_shouldReturnTrue() {
         //given
         Map<String, List<String>> headerMap = new HashMap<>();
-        headerMap.put("client-id", getHeaderValueList("test"));
-        headerMap.put("client-secret", getHeaderValueList("test"));
+        headerMap.put("client-id", getHeaderValueList("uYDyUW/S1jCKIWX8ZsrjjTTqHdgAwwX5fQ00Lg9ACugWY0dS1JJf/4Mb7brSUUVl"));
+        headerMap.put("client-secret", getHeaderValueList("C1cmXZs1+1jwRiBjCKD2a0javmov65I95AX8x5gOzdAxKkyn1m5XCjoppT5Ksk2xAC2jZ3ND5WMgUT4+LG3R8A=="));
         //when
         boolean result = authenticationService.authenticate(headerMap);
         //then
@@ -95,11 +95,11 @@ class AuthenticationServiceTest {
     }
 
     @Test
-    void whenInValidClientIdAndSecret_authenticate_shouldReturnFalse() {
+    void whenInValidClientIdAndSecret_authenticate_shouldReturnFalse(){
         //given
         Map<String, List<String>> headerMap = new HashMap<>();
-        headerMap.put("client-id", getHeaderValueList("test"));
-        headerMap.put("client-secret", getHeaderValueList("test1"));
+        headerMap.put("client-id", getHeaderValueList("1uYDyUW/S1jCKIWX8ZsrjjTTqHdgAwwX5fQ00Lg9ACugWY0dS1JJf/4Mb7brSUUVl"));
+        headerMap.put("client-secret", getHeaderValueList("C1cmXZs1+1jwRiBjCKD2a0javmov65I95AX8x5gOzdAxKkyn1m5XCjoppT5Ksk2xAC2jZ3ND5WMgUT4+LG3R8A=="));
         //when
         boolean result = authenticationService.authenticate(headerMap);
         //then
